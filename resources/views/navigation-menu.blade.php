@@ -125,7 +125,7 @@
                                 </div>
 
                                 <x-dropdown-link href="{{  route('product-category.index') }}">
-                                    {{ __('Categories') }}
+                                    {{ __('Products') }}
                                 </x-dropdown-link>
 
                                 <div class="border-t border-gray-200"></div>
