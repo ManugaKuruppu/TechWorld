@@ -13,9 +13,8 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        $var = ProductCategory::orderBy('id', 'DESC')->paginate(10);
         return view('admin.product_category.index', [
-            'product_categories' => ProductCategory::orderBy('id', 'DESC')->paginate(10)
+            'product_categories' => ProductCategory::orderBy('id', 'DESC')->paginate(10),
         ]);
     }
 
@@ -25,7 +24,7 @@ class ProductCategoryController extends Controller
     public function create()
     {
         return view('admin.product_category.form', [
-
+            'category' => new ProductCategory(),
         ]);
     }
 
@@ -34,17 +33,11 @@ class ProductCategoryController extends Controller
      */
     public function store(StoreProductCategoryRequest $request)
     {
-        (new ProductCategory())->create($request->all());
+        ProductCategory::create($request->all());
+
+        session()->flash('success', 'Product category created successfully.');
 
         return redirect()->route('product-category.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(ProductCategory $productCategory)
-    {
-        //
     }
 
     /**
@@ -52,15 +45,22 @@ class ProductCategoryController extends Controller
      */
     public function edit(ProductCategory $productCategory)
     {
-        //
+        return view('admin.product_category.form', [
+            'category' => $productCategory,
+        ]);
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateProductCategoryRequest $request, ProductCategory $productCategory)
     {
-        //
+        $productCategory->update($request->all());
+
+        session()->flash('success', 'Product category updated successfully.');
+
+        return redirect()->route('product-category.index');
     }
 
     /**
@@ -70,7 +70,10 @@ class ProductCategoryController extends Controller
     {
         $productCategory->delete();
 
-        return redirect()->route('product-category.index');
+        session()->flash('success', 'Product category deleted successfully.');
 
+        return redirect()->route('product-category.index');
     }
+
+   
 }
